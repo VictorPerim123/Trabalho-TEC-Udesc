@@ -1,0 +1,9 @@
+;S ; Máquina de Turing (modelo de Sipser)
+
+; Esta MT reconhece strings binárias que terminam em 0
+
+0 0 0 R 0
+0 1 1 R 0
+0 _ _ L check
+check 0 0 * halt-accept
+check 1 1 * halt-reject
