@@ -1,0 +1,35 @@
+;I ; Traduzido do modelo de Sipser para fita duplamente infinita
+; Fase 1: Preparar a fita marcando o in�cio com '#' e deslocando a entrada para a direita
+0 0 # R desloca_0
+0 1 # R desloca_1
+0 * # R desloca_outro
+0 _ # R volta_inicio ; Entrada vazia
+
+desloca_0 0 0 R desloca_0
+desloca_0 1 0 R desloca_1
+desloca_0 * 0 R desloca_outro
+desloca_0 _ 0 L volta_inicio
+
+desloca_1 0 1 R desloca_0
+desloca_1 1 1 R desloca_1
+desloca_1 * 1 R desloca_outro
+desloca_1 _ 1 L volta_inicio
+
+desloca_outro 0 * R desloca_0
+desloca_outro 1 * R desloca_1
+desloca_outro * * R desloca_outro
+desloca_outro _ * L volta_inicio
+
+volta_inicio * * L volta_inicio
+volta_inicio # # R sim_0 ; Pronto para iniciar simula��o no estado 0
+
+; Fase 2: Regras originais traduzidas
+sim_0 0 0 R sim_0
+sim_0 1 1 R sim_0
+sim_0 _ _ L sim_check ; Regra original de blank (lado direito)
+sim_0 # # L sim_check ; Tradu��o da regra de blank (parede esquerda)
+sim_check 0 0 * halt-accept
+sim_check 1 1 * halt-reject
+
+; Fase 3: Simula��o da parede esquerda (s�mbolo '#') para estados sem regra de blank
+sim_check # # R sim_check ; Cabe�ote encontrou o limite esquerdo (bounce)
