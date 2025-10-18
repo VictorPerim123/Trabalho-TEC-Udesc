@@ -1,0 +1,21 @@
+;S ; Exemplo S2: Aceita 0^n (n>=2), mas de forma simples.
+; Aceita "00", "010", "000". Rejeita "101", "01".
+
+; Estado 0: Início
+0 0 _ R vai_fim ; Apaga o '0' inicial e procura o fim
+0 1 _ * halt-reject ; Começa com 1
+0 _ _ * halt-reject ; Vazia
+
+; Estado vai_fim: Procura o fim da fita
+vai_fim 0 0 R vai_fim
+vai_fim 1 1 R vai_fim
+vai_fim _ _ L check_fim ; Achou o fim, volta um para checar
+
+; Estado check_fim: Checa o último símbolo
+check_fim 0 _ L volta_inicio ; Era '0', apaga e volta
+check_fim 1 _ * halt-reject ; Termina com '1'
+check_fim _ _ * halt-accept ; Se chegou aqui, era "0" que foi apagado (ex: "00")
+
+; Estado volta_inicio: Volta para o início
+volta_inicio * * L volta_inicio
+volta_inicio _ _ R 0 ; Chegou no início (marcado por '_'), avança e recomeça

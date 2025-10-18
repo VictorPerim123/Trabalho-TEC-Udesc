@@ -1,0 +1,51 @@
+;S ; Traduzido do modelo de fita duplamente infinita para o modelo de Sipser
+; Fase 1: Adicionar '#' e deslocar a entrada para a direita
+; Esta fase lê o primeiro símbolo, escreve '#', e então 'empurra' a fita
+0 0 # R desloca_0
+0 1 # R desloca_1
+0 * # R desloca_outro
+0 _ # * sim_0
+
+desloca_0 0 0 R desloca_0
+desloca_0 1 0 R desloca_1
+desloca_0 * 0 R desloca_outro
+desloca_0 _ 0 L volta_inicio
+
+desloca_1 0 1 R desloca_0
+desloca_1 1 1 R desloca_1
+desloca_1 * 1 R desloca_outro
+desloca_1 _ 1 L volta_inicio
+
+desloca_outro 0 * R desloca_0
+desloca_outro 1 * R desloca_1
+desloca_outro * * R desloca_outro
+desloca_outro _ * L volta_inicio
+
+; Retorna o cabeçote para o início da fita (primeiro símbolo real)
+volta_inicio * * L volta_inicio
+volta_inicio # # R sim_0 ; Pronto para iniciar simulação no estado 0
+
+; Fase 2: Regras originais traduzidas
+; Regras para símbolos não-brancos (0, 1, *) e brancos à direita (_)
+sim_0 0 X R sim_busca_1
+sim_0 Y Y R sim_0
+sim_0 _ _ * halt-accept ; Regra de blank (lado direito)
+sim_0 1 1 * halt-reject
+sim_busca_1 1 Y L sim_rebobina
+sim_busca_1 0 0 R sim_busca_1
+sim_busca_1 Y Y R sim_busca_1
+sim_busca_1 _ _ * halt-reject ; Regra de blank (lado direito)
+sim_rebobina 0 0 L sim_rebobina
+sim_rebobina Y Y L sim_rebobina
+sim_rebobina X X R sim_0
+sim_rebobina _ _ R sim_0 ; Regra de blank (lado direito)
+
+; Fase 3: Regras para simular a parede esquerda ('#')
+; (Tradução das regras que leem '_' no modelo original)
+sim_0 # # * halt-accept ; Tradução de (rebobina, _, _, ...)
+sim_busca_1 # # * halt-reject ; Tradução de (rebobina, _, _, ...)
+sim_rebobina # # R sim_0 ; Tradução de (rebobina, _, _, ...)
+
+; Fase 4: Regras de 'bounce' para estados sem transição explícita para '_'
+
+; Fase 5: Fim da tradução

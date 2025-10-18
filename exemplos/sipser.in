@@ -1,0 +1,13 @@
+;S ; Exemplo S1: Inverte 0s e 1s, depois volta ao início
+; 101_ -> 010_ -> (volta) -> #|010
+
+; Fase 1: Inverter
+0 0 1 R 0
+0 1 0 R 0
+0 _ _ L 1 ; Fim da fita, começa a voltar
+
+; Fase 2: Voltar
+1 0 0 L 1
+1 1 1 L 1
+1 _ _ R halt ; No modelo Sipser, L no início bate na parede (ou lê _). 
+; Esta regra para a máquina quando ela chega no início.

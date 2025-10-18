@@ -1,0 +1,36 @@
+;I ; Traduzido do modelo de Sipser para fita duplamente infinita
+; Fase 1: Preparar a fita marcando o início com '#' e deslocando a entrada para a direita
+0 0 # R desloca_0
+0 1 # R desloca_1
+0 * # R desloca_outro
+0 _ # R volta_inicio ; Entrada vazia
+
+desloca_0 0 0 R desloca_0
+desloca_0 1 0 R desloca_1
+desloca_0 * 0 R desloca_outro
+desloca_0 _ 0 L volta_inicio
+
+desloca_1 0 1 R desloca_0
+desloca_1 1 1 R desloca_1
+desloca_1 * 1 R desloca_outro
+desloca_1 _ 1 L volta_inicio
+
+desloca_outro 0 * R desloca_0
+desloca_outro 1 * R desloca_1
+desloca_outro * * R desloca_outro
+desloca_outro _ * L volta_inicio
+
+volta_inicio * * L volta_inicio
+volta_inicio # # R sim_0 ; Pronto para iniciar simulação no estado 0
+
+; Fase 2: Regras originais traduzidas
+sim_0 0 1 R sim_0
+sim_0 1 0 R sim_0
+sim_0 _ _ L sim_1 ; Regra original de blank (lado direito)
+sim_0 # # L sim_1 ; Tradução da regra de blank (parede esquerda)
+sim_1 0 0 L sim_1
+sim_1 1 1 L sim_1
+sim_1 _ _ R halt ; Regra original de blank (lado direito)
+sim_1 # # R halt ; Tradução da regra de blank (parede esquerda)
+
+; Fase 3: Simulação da parede esquerda (símbolo '#') para estados sem regra de blank

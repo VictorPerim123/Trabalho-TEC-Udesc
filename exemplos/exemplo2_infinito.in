@@ -1,0 +1,5 @@
+;I ; MT de fita duplamente infinita - aceita se todos os símbolos forem '0'
+
+0 0 0 R 0
+0 1 1 * halt-reject
+0 _ _ * halt-accept

@@ -1,0 +1,23 @@
+;I ; Exemplo I2 Corrigido: Verifica 0^n 1^n (ex: 000111)
+; Procura um 0, apaga (X), procura um 1, apaga (Y), e REBOBINA.
+
+; Estado 0: Procura o próximo 0 (inicia no começo)
+; Varre para a direita procurando um 0.
+0 0 X R busca_1    ; Achou 0, marca X, vai procurar um 1
+0 Y Y R 0          ; Ignora Y (1 já marcado)
+0 _ _ * halt-accept  ; Fim da fita (ou #), todos os 0s e 1s foram pareados
+0 1 1 * halt-reject  ; Achou 1 (fora de ordem ou sobressalente)
+
+; Estado busca_1: Procura um 1
+; Varre para a direita procurando um 1.
+busca_1 1 Y L rebobina ; Achou 1, marca Y, volta para o início
+busca_1 0 0 R busca_1  ; Ignora 0
+busca_1 Y Y R busca_1  ; Ignora Y
+busca_1 _ _ * halt-reject  ; Fim da fita, não achou 1 (ex: "001")
+
+; Estado rebobina: Volta para a esquerda até o primeiro X
+; Procura a "fronteira" entre X e 0.
+rebobina 0 0 L rebobina
+rebobina Y Y L rebobina
+rebobina X X R 0       ; Achou o 'X' mais à direita, move 1 para a direita e recomeça no estado 0
+rebobina _ _ R 0       ; Bateu na parede esquerda (blank), move 1 para a direita e recomeça
