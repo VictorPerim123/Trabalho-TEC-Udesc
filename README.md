@@ -52,7 +52,7 @@ Os testes foram realizados no simulador online: 👉 http://morphett.info/turing
 Tanto a máquina original (.in) quanto a traduzida (.out) reconhecem a mesma linguagem.
 
 📂 Repositório
-📎 Link para o repositório público no GitHub: (adicione aqui o link do seu repositório, por exemplo:) https://github.com/seu-usuario/tradutor-mt
+📎 Link para o repositório público no GitHub: https://github.com/VictorPerim123/Trabalho-TEC-Udesc
 
 👨‍💻 Autores
 Este trabalho foi feito pelos alunos: Victor Alexandre e Gustavo Gonçalves.
